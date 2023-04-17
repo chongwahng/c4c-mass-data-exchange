@@ -45,15 +45,5 @@
       "no-console": "off",
       "require-atomic-updates": "off"
     }
-  },
-  "cds": {
-    "odata": {
-      "protectMetadata": false
-    },
-    "requires": {
-      "auth": {
-        "kind": "xsuaa"
-      }
-    }
   }
 }

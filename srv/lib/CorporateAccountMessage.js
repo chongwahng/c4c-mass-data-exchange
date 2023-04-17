@@ -32,6 +32,7 @@ class messagePayload {
                 OrganisationId: '',
 
                 SalesRepCode: '',
+                FidelityProgram: '',
                 TaxId: ''
             }
         }

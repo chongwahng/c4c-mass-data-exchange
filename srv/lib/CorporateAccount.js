@@ -42,7 +42,7 @@ class CorporateAccount {
             const taxNumberProperties =
                 `CorporateAccountTaxNumber/TaxID`
 
-            const apiURL =
+            let apiURL =
                 `/sap/c4c/odata/v1/c4codataapi/CorporateAccountCollection?` +
                 `$expand=` +
                 `CorporateAccountAddress,` +
@@ -52,7 +52,7 @@ class CorporateAccount {
                 `&$filter=ObjectID eq '${eventObj.data['root-entity-id']}'` +
                 `&$select=${accountProperties},${addressProperties},${salesDataProperties},${teamProperties},${taxNumberProperties}`
 
-            const response = await executeHttpRequest(
+            let response = await executeHttpRequest(
                 destination,
                 {
                     method: 'get',
@@ -113,6 +113,28 @@ class CorporateAccount {
                 outboundMessagePayload.Entity.TaxId = taxNumberCollection.TaxID
             }
 
+            apiURL =
+                `/sap/c4c/odata/v1/c4codataapi/BusinessAttributeAssignmentItemCollection?` +
+                `&$filter=BusinessPartnerID eq '${accountCollection.AccountID}'` +
+                `&$select=BusinessAttributeSetID,BusinessAttributeID,BusinessAttributeValue`
+
+            response = await executeHttpRequest(
+                destination,
+                {
+                    method: 'get',
+                    url: apiURL
+                }
+            )
+
+            if (response.data.d.results.length > 0) {
+                const itemCollection = response.data.d.results[0]
+
+                if (itemCollection.BusinessAttributeSetID === 'ZFRL_01' && itemCollection.BusinessAttributeValue === 'Z10401' && itemCollection.BusinessAttributeID === 'Z104') {
+                    outboundMessagePayload.Entity.FidelityProgram = 'PackPro'
+                } else if (itemCollection.BusinessAttributeValue === 'P30') {
+                    outboundMessagePayload.Entity.FidelityProgram = 'PPG'
+                }
+            }
             return outboundMessagePayload
         }
         catch (err) {

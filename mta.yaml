@@ -1,46 +1,40 @@
----
 _schema-version: "3.1"
 ID: c4c-mass-data-exchange
+description: A simple CAP project.
 version: 1.0.0
-description: "A simple CAP project."
+modules:
+- name: c4c-mass-data-exchange-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: c4c-mass-data-exchange-dest
+  - name: c4c-mass-data-exchange-auth
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm-ci
+resources:
+- name: c4c-mass-data-exchange-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+    service-name: c4c-mass-data-exchange-auth
+- name: c4c-mass-data-exchange-dest
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: destination
+    service-name: c4c-mass-data-exchange-dest
+    service-plan: lite
 parameters:
   enable-parallel-deployments: true
 build-parameters:
   before-all:
-    - builder: custom
-      commands:
-        - npx -p @sap/cds-dk cds build --production
-
-modules:
-  - name: c4c-mass-data-exchange-srv
-    type: nodejs
-    path: gen/srv
-    parameters:
-      buildpack: nodejs_buildpack
-    build-parameters:
-      builder: npm-ci
-    provides:
-      - name: srv-api # required by consumers of CAP services (e.g. approuter)
-        properties:
-          srv-url: ${default-url}
-    requires:
-      - name: c4c-mass-data-exchange-auth
-      - name: c4c-mass-data-exchange-dest
-
-resources:
-  - name: c4c-mass-data-exchange-auth
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: xsuaa
-      service-plan: application
-      path: ./xs-security.json
-      config:
-        xsappname: c4c-mass-data-exchange-${org}-${space}
-        tenant-mode: dedicated
-  - name: c4c-mass-data-exchange-dest
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: destination
-      service-name: c4c-mass-data-exchange-dest
-      service-plan: lite
-    
+  - builder: custom
+    commands:
+    - npx -p @sap/cds-dk cds build --production

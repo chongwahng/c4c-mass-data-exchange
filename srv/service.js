@@ -1,3 +1,4 @@
+cds.env.odata.protectMetadata = false
 const { errorHandler } = require('./lib/ErrorHandler')
 
 // Data provider class source file location - mandatory to add here to handle new CL events
@@ -17,7 +18,7 @@ module.exports = async function (srv) {
         destinationName = process.env.C4C_DESTNAME
     } else {
         destinationName = 'c4c_ac'
-    }   
+    }
 
     this.on('EnrichData', async (req) => {
         let eventObj = JSON.parse(req.data.event)
@@ -37,5 +38,9 @@ module.exports = async function (srv) {
         let eventObj = JSON.parse(req.data.event)
         console.log(eventObj)
         return eventObj
+    })
+
+    this.on('customEndpoint', async (req) => {
+        console.log('inside handler')
     })
 }
