@@ -13,14 +13,14 @@ const dataProviders = [
     { eventType: 'IndividualCustomer.Root.Updated', targetEvent: 'Updated', class: IndividualCustomer }
 ]
 
-module.exports = async function (srv) {
+module.exports = (srv) => {
     if (process.env.C4C_DESTNAME) {
         destinationName = process.env.C4C_DESTNAME
     } else {
         destinationName = 'c4c_ac'
     }
 
-    this.on('EnrichData', async (req) => {
+    srv.on('EnrichData', async (req) => {
         let eventObj = JSON.parse(req.data.event)
 
         if (eventObj) {
@@ -34,13 +34,9 @@ module.exports = async function (srv) {
         }
     })
 
-    this.on('VerifyEventPayload', async (req) => {
+    srv.on('VerifyEventPayload', async (req) => {
         let eventObj = JSON.parse(req.data.event)
         console.log(eventObj)
         return eventObj
-    })
-
-    this.on('customEndpoint', async (req) => {
-        console.log('inside handler')
     })
 }
