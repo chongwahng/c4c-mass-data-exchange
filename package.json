@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "@sap-cloud-sdk/core": "^1.54.2",
-    "@sap/cds": "^6",
+    "@sap/cds": "^5",
     "express": "^4",
     "@sap/xssec": "^3",
     "passport": "^0"
@@ -44,6 +44,13 @@
     "rules": {
       "no-console": "off",
       "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "env": {
+      "odata": {
+        "protectMetadata": "false"
+      }
     }
   }
 }

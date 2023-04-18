@@ -4,6 +4,10 @@ class messagePayload {
             EventName: '',
             EventType: '',
             EventTriggeredOn: '',
+            EventSpecInfo: {
+                Topic: '',
+                OriginalEventName: ''
+            },
             Entity: {
                 AccountId: '',
                 ERPAccountID: '',

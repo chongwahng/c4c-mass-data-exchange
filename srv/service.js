@@ -1,4 +1,3 @@
-cds.env.odata.protectMetadata = false
 const { errorHandler } = require('./lib/ErrorHandler')
 
 // Data provider class source file location - mandatory to add here to handle new CL events

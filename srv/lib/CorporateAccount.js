@@ -63,6 +63,8 @@ class CorporateAccount {
             outboundMessagePayload.EventType = targetEvent
             outboundMessagePayload.EventTriggeredOn = eventObj['event-time']
 
+            outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
+            
             const accountCollection = response.data.d.results[0]
 
             outboundMessagePayload.Entity.AccountId = accountCollection.AccountID
