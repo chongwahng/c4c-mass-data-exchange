@@ -7,9 +7,9 @@
   "private": true,
   "dependencies": {
     "@sap-cloud-sdk/core": "^1.54.2",
-    "@sap/cds": "^6.7.1",
-    "express": "^4",
+    "@sap/cds": "^6.8.3",
     "@sap/xssec": "^3",
+    "express": "^4",
     "passport": "^0"
   },
   "devDependencies": {
@@ -50,11 +50,11 @@
     "env": {
       "odata": {
         "protectMetadata": false
-      },
-      "requires": {
-        "auth": {
-          "restrict_all_services": false
-        }
+      }
+    },
+    "requires": {
+      "auth": {
+        "restrict_all_services": false
       }
     }
   }
